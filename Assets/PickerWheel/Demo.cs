@@ -16,6 +16,11 @@ public class Demo : MonoBehaviour {
          uiSpinButtonText.text = "Spinning" ;
 
          pickerWheel.OnSpinEnd (wheelPiece => {
+             ReferenceManager.Instance.uiManager.SpinWheelCanvas.SetActive(false);
+             ReferenceManager.Instance.uiManager.CongratPopupCanvas.SetActive(true);
+             ReferenceManager.Instance.uiManager.DiscountCoinsText.text = "You Have Won" + wheelPiece.Amount + " % off you pick!";
+             ReferenceManager.Instance.uiManager.CongratCanvasOkayButton.onClick.RemoveAllListeners();
+             ReferenceManager.Instance.uiManager.CongratCanvasOkayButton.onClick.AddListener(() => ReferenceManager.Instance.mainHandler.OnClickCongratOkayButton(wheelPiece.Amount));
             Debug.Log (
                @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Label
                + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"

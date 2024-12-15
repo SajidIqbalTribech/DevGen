@@ -184,6 +184,16 @@ public class MainHandler : MonoBehaviour
                 int x = buyPowerupsCards.Count - 1;
                 card.GetComponent<BuyCardInfo>().Name.text = Cards[i].name;
                 card.GetComponent<BuyCardInfo>().Logo.sprite = Cards[i].logo;
+                if (i == 0)
+                {
+                    card.GetComponent<BuyCardInfo>().Logo.gameObject.AddComponent<Button>();
+                    card.GetComponent<BuyCardInfo>().Logo.GetComponent<Button>().onClick.RemoveAllListeners();
+                    card.GetComponent<BuyCardInfo>().Logo.GetComponent<Button>().onClick.AddListener(() => uiManager.SpinWheelCanvas.SetActive(true));
+                    if(Cards[0].price < prevCost)
+                    {
+                        Cards[0].price = prevCost;
+                    }
+                }
                 card.GetComponent<BuyCardInfo>().CoinPrice.text = Cards[i].price.ToString();
                 card.GetComponent<Button>().onClick.RemoveAllListeners();
                 card.GetComponent<Button>().onClick.AddListener(() => OnClickBuyCard(x, mainCardIndex));
@@ -242,6 +252,7 @@ public class MainHandler : MonoBehaviour
                 Cards[mainCardIndex].isExpired = false;
                 GlobalData.SetCardExpire(false, mainCardIndex);
             }
+            ListBuyPowerups();
         }
         else
         {
@@ -254,6 +265,7 @@ public class MainHandler : MonoBehaviour
         uiManager.MustDiscardPopupCanvas.SetActive(false);
         uiManager.BuyPowerupsCanvas.SetActive(false);
         uiManager.MyPowerupsCanvas.SetActive(true);
+        ListViewMyPowerups();
     }
     /// <summary>
     /// Call at Start to load card data from PlayerPrefs
@@ -280,6 +292,7 @@ public class MainHandler : MonoBehaviour
     {
         if (GlobalData.Coins >= 3)
         {
+            uiManager.PreservePopupCanvas.SetActive(false);
             GlobalEvents.InvokeCoinReduction(3);
             string savedDateTimeString = GlobalData.GetPurchasedCardTime(mainCardIndex);
             DateTime savedDateTime = DateTime.Parse(savedDateTimeString);
@@ -312,6 +325,7 @@ public class MainHandler : MonoBehaviour
         }
         else
         {
+            uiManager.PreservePopupCanvas.SetActive(false);
             uiManager.EnoughCoinsPopupCanvas.SetActive(true);
         }
     }
@@ -376,8 +390,22 @@ public class MainHandler : MonoBehaviour
         Cards[mainCardIndex].isPurchase = false;
         Cards[mainCardIndex].isExpired = true;
         GlobalData.SetCardExpire(true, mainCardIndex);
+        GlobalData.SetCardActive(false, mainCardIndex);
+        GlobalData.SetCardPurchased(false, mainCardIndex);
         GlobalData.CurrentActiveCardCount -= 1;
         ListViewMyPowerups();
+    }
+    #endregion
+    float prevCost = 0;
+    #region Discount Wheel Logics
+    public void OnClickCongratOkayButton(float disAmount)
+    {
+        float discountAmount = Cards[0].price * (disAmount / 100);
+        Debug.Log("DiscountAmount" + discountAmount);
+        prevCost = Cards[0].price;
+        float purchasedAmount = Cards[0].price - discountAmount;
+        Cards[0].price = purchasedAmount;
+        buyPowerupsCards[0].GetComponent<BuyCardInfo>().CoinPrice.text = purchasedAmount.ToString();  
     }
     #endregion
 

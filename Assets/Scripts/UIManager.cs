@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] public GameObject EnoughCoinsPopupCanvas;
     [SerializeField] public GameObject MustDiscardPopupCanvas;
     [SerializeField] public GameObject PreservePopupCanvas;
+    [SerializeField] public GameObject SpinWheelCanvas;
+    [SerializeField] public GameObject CongratPopupCanvas;
 
 
     [Header("Text")]
@@ -27,6 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI LandingScreenCoinsText;
     [SerializeField] TextMeshProUGUI BuyPowerScreenCoinsText;
     [SerializeField] TextMeshProUGUI MyPowerScreenCoinsText;
+    [SerializeField] public TextMeshProUGUI DiscountCoinsText;
     [SerializeField] Slider CoinSlider;
     [SerializeField] public TextMeshProUGUI BuyCanvasDescriptionText;
     [SerializeField] public Button BuyCanvasPurchaseButton;
@@ -35,6 +38,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Button ActiveCanvasOkayButton;
     [SerializeField] public Button DiscardCanvasOkayButton;
     [SerializeField] public Button MustDiscardCanvasOkayButton;
+    [SerializeField] public Button CongratCanvasOkayButton;
 
     [Header("Cards Prefabs")]
     [Space]
