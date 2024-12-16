@@ -3,8 +3,8 @@
 namespace EasyUI.PickerWheelUI {
    [System.Serializable]
    public class WheelPiece {
-      public UnityEngine.Sprite Icon ;
-      public string Label ;
+      //public UnityEngine.Sprite Icon ;
+      //public string Label ;
 
       [Tooltip ("Reward amount")] public int Amount ;
 

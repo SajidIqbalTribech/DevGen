@@ -12,20 +12,20 @@ public class Demo : MonoBehaviour {
    private void Start () {
       uiSpinButton.onClick.AddListener (() => {
 
-         uiSpinButton.interactable = false ;
+         uiSpinButton.interactable = false ; 
          uiSpinButtonText.text = "Spinning" ;
 
          pickerWheel.OnSpinEnd (wheelPiece => {
              ReferenceManager.Instance.uiManager.SpinWheelCanvas.SetActive(false);
              ReferenceManager.Instance.uiManager.CongratPopupCanvas.SetActive(true);
-             ReferenceManager.Instance.uiManager.DiscountCoinsText.text = "You Have Won" + wheelPiece.Amount + " % off you pick!";
+             ReferenceManager.Instance.uiManager.DiscountCoinsText.text = "You Have Won " + wheelPiece.Amount + " % off your pick!";
+             GlobalData.SetDiscountPromo(wheelPiece.Amount, 0);
              ReferenceManager.Instance.uiManager.CongratCanvasOkayButton.onClick.RemoveAllListeners();
              ReferenceManager.Instance.uiManager.CongratCanvasOkayButton.onClick.AddListener(() => ReferenceManager.Instance.mainHandler.OnClickCongratOkayButton(wheelPiece.Amount));
             Debug.Log (
-               @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Label
+               @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Amount
                + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
             ) ;
-
             uiSpinButton.interactable = true ;
             uiSpinButtonText.text = "Spin" ;
          }) ;

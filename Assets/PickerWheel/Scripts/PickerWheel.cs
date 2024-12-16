@@ -47,7 +47,7 @@ namespace EasyUI.PickerWheelUI {
       private Vector2 pieceMinSize = new Vector2 (81f, 146f) ;
       private Vector2 pieceMaxSize = new Vector2 (144f, 213f) ;
       private int piecesMin = 2 ;
-      private int piecesMax = 12 ;
+      private int piecesMax = 16 ;
 
       private float pieceAngle ;
       private float halfPieceAngle ;
@@ -100,8 +100,8 @@ namespace EasyUI.PickerWheelUI {
          WheelPiece piece = wheelPieces [ index ] ;
          Transform pieceTrns = InstantiatePiece ().transform.GetChild (0) ;
 
-         pieceTrns.GetChild (0).GetComponent <Image> ().sprite = piece.Icon ;
-         pieceTrns.GetChild (1).GetComponent <Text> ().text = piece.Label ;
+         //pieceTrns.GetChild (0).GetComponent <Image> ().sprite = piece.Icon ;
+         //pieceTrns.GetChild (1).GetComponent <Text> ().text = piece.Label ;
          pieceTrns.GetChild (2).GetComponent <Text> ().text = piece.Amount.ToString () ;
 
          //Line

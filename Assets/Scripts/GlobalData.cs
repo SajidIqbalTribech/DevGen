@@ -9,8 +9,10 @@ public class GlobalData
     private static string _IsCardPurchased = "_isCardPurchased";
     private static string _IsCardActive = "_isCardActive";
     private static string _IsCardExpire = "_isCardExpire";
+    private static string _IsCardDiscard = "_isCardDiscard";
     public static string _CurrentActiveCard = "_CurrentActiveCard";
     public static string _PurchasedCardTime = "_PurchasedCardTime";
+    public static string _DiscountPromo = "_DiscountPromo";
     public static int FirstRun
     {
         get { return PlayerPrefs.GetInt(_FirstRun); }
@@ -75,5 +77,27 @@ public class GlobalData
             return true;
         else
             return false;
+    }
+    public static void SetCardDiscard(bool status, int cardIndex)
+    {
+        if (status == true)
+            PlayerPrefs.SetInt(_IsCardDiscard + cardIndex, 1);
+        else
+            PlayerPrefs.SetInt(_IsCardDiscard + cardIndex, 0);
+    }
+    public static bool GetCardDiscard(int cardIndex)
+    {
+        if (PlayerPrefs.GetInt(_IsCardDiscard + cardIndex) == 1)
+            return true;
+        else
+            return false;
+    }
+    public static void SetDiscountPromo(int promo, int cardIndex)
+    {
+        PlayerPrefs.SetInt(_DiscountPromo + cardIndex, promo);
+    }
+    public static int GetSetDiscountPromo(int cardIndex)
+    {    
+        return PlayerPrefs.GetInt(_DiscountPromo + cardIndex);   
     }
 }

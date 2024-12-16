@@ -13,5 +13,6 @@ public class ViewCardInfo : MonoBehaviour
     [SerializeField] public Button ActivateButton;
     [SerializeField] public Button PreserveButton;
     [SerializeField] public GameObject BoostPayout;
+    [SerializeField] public TextMeshProUGUI Description;
 
 }

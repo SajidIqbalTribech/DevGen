@@ -10,11 +10,14 @@ namespace Helper
     {
         public string name;
         public string description;
+        public string ClaimedDescriptionBefore;
+        public string ClaimedDescriptionAfter;
         public Sprite logo;
         public float price = 3;
         public bool isPurchase = false;
         public bool isActive = false;
-        public float timeInHours = 259200;
+        //public float timeInHours = 259200;
         public bool isExpired = false;
+        public bool isDiscard = false;
     }
 }

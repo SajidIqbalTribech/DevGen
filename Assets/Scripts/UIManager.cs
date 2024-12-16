@@ -36,9 +36,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Button PurchaseCanvasOkayButton;
     [SerializeField] public Button PreserveCanvasOkayButton;
     [SerializeField] public Button ActiveCanvasOkayButton;
+    [SerializeField] public TextMeshProUGUI ActiveCanvasTitleText;
     [SerializeField] public Button DiscardCanvasOkayButton;
+    [SerializeField] public TextMeshProUGUI DiscardCanvasTitleText;
     [SerializeField] public Button MustDiscardCanvasOkayButton;
     [SerializeField] public Button CongratCanvasOkayButton;
+    [SerializeField] public TextMeshProUGUI EnoughCoinsCanvasTitleText;
+    [SerializeField] public TextMeshProUGUI PurchaseCanvasTitleText;
 
     [Header("Cards Prefabs")]
     [Space]
@@ -52,6 +56,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Transform myExpiryPowerupContent;
     #endregion
 
+    [Header("Empty Card Text")]
+    [Space]
+    [Space]
+    [SerializeField] public GameObject AvailableClaimedEmpty;
+    [SerializeField] public GameObject ClaimedEmpty;
+    [SerializeField] public GameObject DiscardEmpty;
 
     #region MonoBehaviour
     private void Awake()
