@@ -18,9 +18,10 @@ public class Demo : MonoBehaviour {
          pickerWheel.OnSpinEnd (wheelPiece => {
              ReferenceManager.Instance.uiManager.SpinWheelCanvas.SetActive(false);
              ReferenceManager.Instance.uiManager.CongratPopupCanvas.SetActive(true);
-             ReferenceManager.Instance.uiManager.DiscountCoinsText.text = "You Have Won " + wheelPiece.Amount + " % off your pick!";
+             ReferenceManager.Instance.uiManager.DiscountCoinsText.text = "You Have Won " + wheelPiece.Amount + "% off your pick!";
              GlobalData.SetDiscountPromo(wheelPiece.Amount, 0);
              ReferenceManager.Instance.uiManager.CongratCanvasOkayButton.onClick.RemoveAllListeners();
+             //ReferenceManager.Instance.mainHandler.ManupulateClaimedPowerUp();
              ReferenceManager.Instance.uiManager.CongratCanvasOkayButton.onClick.AddListener(() => ReferenceManager.Instance.mainHandler.OnClickCongratOkayButton(wheelPiece.Amount));
             Debug.Log (
                @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Amount

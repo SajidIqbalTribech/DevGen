@@ -13,6 +13,7 @@ namespace Helper
         public string ClaimedDescriptionBefore;
         public string ClaimedDescriptionAfter;
         public Sprite logo;
+        public int CardInventory;
         public float price = 3;
         public bool isPurchase = false;
         public bool isActive = false;

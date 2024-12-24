@@ -101,7 +101,7 @@ public class MainHandler : MonoBehaviour
                 }
                 continue;
             }
-            if (Cards[i].isPurchase)
+            if (Cards[i].isPurchase)//&& !Cards[i].isActive
             {
                 int mainCardIndex = i;
                 // List all cards that owned by user here...
@@ -115,7 +115,7 @@ public class MainHandler : MonoBehaviour
                 else
                 {
                     if (GlobalData.GetSetDiscountPromo(i) > 0)
-                        myCard.GetComponent<ViewCardInfo>().Description.text = Cards[i].ClaimedDescriptionAfter + " " + GlobalData.GetSetDiscountPromo(i);
+                        myCard.GetComponent<ViewCardInfo>().Description.text = Cards[i].ClaimedDescriptionAfter + " " + GlobalData.GetSetDiscountPromo(i) + " %";
                     else
                         myCard.GetComponent<ViewCardInfo>().Description.text = Cards[i].ClaimedDescriptionAfter;
                 }
@@ -167,7 +167,7 @@ public class MainHandler : MonoBehaviour
             }
             
         }
-        ManupulateClaimedPowerUp();
+        //ManupulateClaimedPowerUp();
         if(myExpireCards.Count == 0)
         {
             // Empty Card Test is here..
@@ -268,6 +268,7 @@ public class MainHandler : MonoBehaviour
     /// <param name="cardIndex"></param>
     public void PurchaseCard(int cardIndex, int mainCardIndex)
     {
+        Debug.LogError("Error " + GlobalData.CurrentActiveCardCount);
         if (GlobalData.CurrentActiveCardCount >= 3)
         {
             uiManager.PurchasePopupCanvas.SetActive(false);
@@ -279,11 +280,13 @@ public class MainHandler : MonoBehaviour
         if (GlobalData.Coins >= Cards[mainCardIndex].price)
         {
             GlobalEvents.OnCurrencyReduction(Cards[mainCardIndex].price);
+            Cards[mainCardIndex].CardInventory++;
+            GlobalData.CurrentActiveCardCount += 1;
             Cards[mainCardIndex].isPurchase = true;
+            
             GlobalData.SetCardPurchased(true, mainCardIndex);
             string currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             GlobalData.SetPurchasedCardTime(currentDateTime, mainCardIndex);
-            GlobalData.CurrentActiveCardCount += 1;
             if (Cards[mainCardIndex].isExpired)
             {
                 Cards[mainCardIndex].isExpired = false;
@@ -334,10 +337,10 @@ public class MainHandler : MonoBehaviour
     }
     public void OnClickYesPreserve(int cardIndex, int mainCardIndex)
     {
-        if (GlobalData.Coins >= 3)
+        if (GlobalData.Coins >= 2)
         {
             uiManager.PreservePopupCanvas.SetActive(false);
-            GlobalEvents.InvokeCoinReduction(3);
+            GlobalEvents.InvokeCoinReduction(2);
             string savedDateTimeString = GlobalData.GetPurchasedCardTime(mainCardIndex);
             DateTime savedDateTime = DateTime.Parse(savedDateTimeString);
             DateTime updatedDateTime = savedDateTime.AddHours(24);
@@ -386,11 +389,12 @@ public class MainHandler : MonoBehaviour
     public void OnClickYesActivate(int cardIndex, int mainCardIndex)
     {
         uiManager.ActivePopupCanvas.SetActive(false);
-        myPowerupsCards[cardIndex].GetComponent<ViewCardInfo>().ActivateButton.enabled = false;
-        myPowerupsCards[cardIndex].GetComponent<ViewCardInfo>().ActivateButton.image.sprite = uiManager.Activated;
+        //myPowerupsCards[cardIndex].GetComponent<ViewCardInfo>().ActivateButton.enabled = false;
+        //myPowerupsCards[cardIndex].GetComponent<ViewCardInfo>().ActivateButton.image.sprite = uiManager.Activated;
         Cards[mainCardIndex].isActive = true;
         GlobalData.SetCardActive(true, mainCardIndex);
-        ManupulateClaimedPowerUp();
+        //ManupulateClaimedPowerUp();
+        ListViewMyPowerups();
         ActiveMiniGame(mainCardIndex);
     }
     public void ActiveMiniGame(int mainCardIndex)
@@ -417,7 +421,7 @@ public class MainHandler : MonoBehaviour
                 myCard.GetComponent<ViewCardInfo>().Name.text = Cards[i].name;
                 myCard.GetComponent<ViewCardInfo>().Logo.sprite = Cards[i].logo;
                 if(GlobalData.GetSetDiscountPromo(i) > 0)
-                    myCard.GetComponent<ViewCardInfo>().Description.text = Cards[i].ClaimedDescriptionAfter + " " + GlobalData.GetSetDiscountPromo(i) + " %";
+                    myCard.GetComponent<ViewCardInfo>().Description.text = Cards[i].ClaimedDescriptionAfter + " " + GlobalData.GetSetDiscountPromo(i) + "%";
                 else
                     myCard.GetComponent<ViewCardInfo>().Description.text = Cards[i].ClaimedDescriptionAfter ;
                 myCard.GetComponent<ViewCardInfo>().CrossButton.gameObject.SetActive(false);
@@ -451,7 +455,7 @@ public class MainHandler : MonoBehaviour
         uiManager.DiscardPopupCanvas.SetActive(false);
         Cards[mainCardIndex].isActive = false;
         Cards[mainCardIndex].isPurchase = false;
-        Cards[mainCardIndex].isExpired = true;
+        Cards[mainCardIndex].isDiscard = true;
         //GlobalData.SetCardExpire(true, mainCardIndex);
         GlobalData.SetCardDiscard(true, mainCardIndex);
         GlobalData.SetCardActive(false, mainCardIndex);
