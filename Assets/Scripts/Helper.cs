@@ -15,9 +15,19 @@ namespace Helper
         public Sprite logo;
         public int CardInventory;
         public float price = 3;
+        //public bool isPurchase = false;
+        //public bool isActive = false;
+        //public float timeInHours = 259200;
+        //public bool isExpired = false;
+        //public bool isDiscard = false;
+        public List<CardInventory> inventory;
+    }
+
+    [Serializable]
+    public class CardInventory
+    {
         public bool isPurchase = false;
         public bool isActive = false;
-        //public float timeInHours = 259200;
         public bool isExpired = false;
         public bool isDiscard = false;
     }

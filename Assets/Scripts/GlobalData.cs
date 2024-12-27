@@ -10,9 +10,14 @@ public class GlobalData
     private static string _IsCardActive = "_isCardActive";
     private static string _IsCardExpire = "_isCardExpire";
     private static string _IsCardDiscard = "_isCardDiscard";
-    public static string _CurrentActiveCard = "_CurrentActiveCard";
-    public static string _PurchasedCardTime = "_PurchasedCardTime";
-    public static string _DiscountPromo = "_DiscountPromo";
+    private static string _CurrentActiveCard = "_CurrentActiveCard";
+    private static string _PurchasedCardTime = "_PurchasedCardTime";
+    private static string _DiscountPromo = "_DiscountPromo";
+    private static string _CardInventory = "_CardInventory";
+    // For Mini Game of Discount Tyhcoon
+    public static int CurrentCardSelected;
+    public static int CurrentMainCardSelected;
+    public static int CurrentInventorySelected;
     public static int FirstRun
     {
         get { return PlayerPrefs.GetInt(_FirstRun); }
@@ -28,76 +33,139 @@ public class GlobalData
         get { return PlayerPrefs.GetInt(_CurrentActiveCard); }
         set { PlayerPrefs.SetInt(_CurrentActiveCard, value); }
     }
-    public static void SetCardPurchased(bool status, int cardIndex)
+    public static void SetCardInventoryPurchased(int cardIndex, int inventoryIndex, bool status)
     {
         if (status == true)
-            PlayerPrefs.SetInt(_IsCardPurchased + cardIndex, 1);
+            PlayerPrefs.SetInt(_IsCardPurchased + cardIndex + inventoryIndex, 1);
         else
-            PlayerPrefs.SetInt(_IsCardPurchased + cardIndex, 0);
+            PlayerPrefs.SetInt(_IsCardPurchased + cardIndex + inventoryIndex, 0);
     }
-    public static bool GetCardPurchase(int cardIndex)
+    public static bool GetCardInventoryPurchase(int cardIndex, int inventoryIndex)
     {
-        if (PlayerPrefs.GetInt(_IsCardPurchased + cardIndex) == 1)
+        if (PlayerPrefs.GetInt(_IsCardPurchased + cardIndex + inventoryIndex) == 1)
             return true;
         else
             return false;
     }
-    public static void SetCardActive(bool status, int cardIndex)
+    //public static void SetCardActive(bool status, int cardIndex)
+    //{
+    //    if (status == true)
+    //        PlayerPrefs.SetInt(_IsCardActive + cardIndex, 1);
+    //    else
+    //        PlayerPrefs.SetInt(_IsCardActive + cardIndex, 0);
+    //}
+    //public static bool GetCardActive(int cardIndex)
+    //{
+    //    if (PlayerPrefs.GetInt(_IsCardActive + cardIndex) == 1)
+    //        return true;
+    //    else
+    //        return false;
+    //}
+    public static void SetPurchasedCardInventoryTime(int cardIndex, int inventoryIndex, string dateTime)
     {
-        if (status == true)
-            PlayerPrefs.SetInt(_IsCardActive + cardIndex, 1);
-        else
-            PlayerPrefs.SetInt(_IsCardActive + cardIndex, 0);
+        PlayerPrefs.SetString(_PurchasedCardTime + cardIndex + inventoryIndex, dateTime);
     }
-    public static bool GetCardActive(int cardIndex)
+    public static string GetPurchasedCardTime(int cardIndex, int inventoryIndex)
     {
-        if (PlayerPrefs.GetInt(_IsCardActive + cardIndex) == 1)
-            return true;
-        else
-            return false;
+        return PlayerPrefs.GetString(_PurchasedCardTime + cardIndex + inventoryIndex);
     }
-    public static void SetPurchasedCardTime(string dateTime, int cardIndex)
+    //public static void SetCardExpire(bool status, int cardIndex, int inventoryIndex)
+    //{
+    //    if (status == true)
+    //        PlayerPrefs.SetInt(_IsCardExpire + cardIndex + inventoryIndex, 1);
+    //    else
+    //        PlayerPrefs.SetInt(_IsCardExpire + cardIndex + inventoryIndex, 0);
+    //}
+    //public static bool GetCardExpire(int cardIndex)
+    //{
+    //    if (PlayerPrefs.GetInt(_IsCardExpire + cardIndex) == 1)
+    //        return true;
+    //    else
+    //        return false;
+    //}
+    //public static void SetCardDiscard(bool status, int cardIndex)
+    //{
+    //    if (status == true)
+    //        PlayerPrefs.SetInt(_IsCardDiscard + cardIndex, 1);
+    //    else
+    //        PlayerPrefs.SetInt(_IsCardDiscard + cardIndex, 0);
+    //}
+    //public static bool GetCardDiscard(int cardIndex)
+    //{
+    //    if (PlayerPrefs.GetInt(_IsCardDiscard + cardIndex) == 1)
+    //        return true;
+    //    else
+    //        return false;
+    //}
+    public static void SetDiscountPromo(int cardIndex, int inventoryIndex, int promo)
     {
-        PlayerPrefs.SetString(_PurchasedCardTime + cardIndex, dateTime);
+        PlayerPrefs.SetInt(_DiscountPromo + cardIndex + inventoryIndex, promo);
     }
-    public static string GetPurchasedCardTime(int cardIndex)
-    {
-        return PlayerPrefs.GetString(_PurchasedCardTime + cardIndex);
-    }
-    public static void SetCardExpire(bool status, int cardIndex)
-    {
-        if (status == true)
-            PlayerPrefs.SetInt(_IsCardExpire + cardIndex, 1);
-        else
-            PlayerPrefs.SetInt(_IsCardExpire + cardIndex, 0);
-    }
-    public static bool GetCardExpire(int cardIndex)
-    {
-        if (PlayerPrefs.GetInt(_IsCardExpire + cardIndex) == 1)
-            return true;
-        else
-            return false;
-    }
-    public static void SetCardDiscard(bool status, int cardIndex)
-    {
-        if (status == true)
-            PlayerPrefs.SetInt(_IsCardDiscard + cardIndex, 1);
-        else
-            PlayerPrefs.SetInt(_IsCardDiscard + cardIndex, 0);
-    }
-    public static bool GetCardDiscard(int cardIndex)
-    {
-        if (PlayerPrefs.GetInt(_IsCardDiscard + cardIndex) == 1)
-            return true;
-        else
-            return false;
-    }
-    public static void SetDiscountPromo(int promo, int cardIndex)
-    {
-        PlayerPrefs.SetInt(_DiscountPromo + cardIndex, promo);
-    }
-    public static int GetSetDiscountPromo(int cardIndex)
+    public static int GetSetDiscountPromo(int cardIndex, int inventoryIndex)
     {    
-        return PlayerPrefs.GetInt(_DiscountPromo + cardIndex);   
+        return PlayerPrefs.GetInt(_DiscountPromo + cardIndex + inventoryIndex);   
+    }
+    public static void SetCardInventory(int cardIndex, int value)
+    {
+        PlayerPrefs.SetInt(_CardInventory + cardIndex, value);
+    }
+    public static int GetCardInventory(int cardIndex)
+    {
+        return PlayerPrefs.GetInt(_CardInventory + cardIndex);
+    }
+
+    public static void SetCardInventoryActive(int cardIndex, int inventoryNumber, bool value)
+    {
+        if (value == true)
+        {
+            PlayerPrefs.SetInt(_IsCardActive + cardIndex + inventoryNumber, 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(_IsCardActive + cardIndex + inventoryNumber, 0);
+        }
+    }
+    public static bool GetCardInventoryActive(int cardIndex, int inventoryNumber)
+    {
+        if (PlayerPrefs.GetInt(_IsCardActive + cardIndex + inventoryNumber) == 1)
+            return true;
+        else
+            return false;
+    }
+    public static void SetCardInventoryDiscard(int cardIndex, int inventoryNumber, bool value)
+    {
+        if (value == true)
+        {
+            PlayerPrefs.SetInt(_IsCardDiscard + cardIndex + inventoryNumber, 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(_IsCardDiscard + cardIndex + inventoryNumber, 0);
+        }
+    }
+    public static bool GetCardInventoryDiscard(int cardIndex, int inventoryNumber)
+    {
+        if (PlayerPrefs.GetInt(_IsCardDiscard + cardIndex + inventoryNumber) == 1)
+            return true;
+        else
+            return false;
+    }
+    public static void SetCardInventoryExpire(int cardIndex, int inventoryNumber, bool value)
+    {
+        if (value == true)
+        {
+            PlayerPrefs.SetInt(_IsCardExpire + cardIndex + inventoryNumber, 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(_IsCardExpire + cardIndex + inventoryNumber, 0);
+        }
+    }
+    public static bool GetCardInventoryExpire(int cardIndex, int inventoryNumber)
+    {
+        if (PlayerPrefs.GetInt(_IsCardExpire + cardIndex + inventoryNumber) == 1)
+            return true;
+        else
+            return false;
     }
 }
